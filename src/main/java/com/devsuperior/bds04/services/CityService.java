@@ -13,11 +13,18 @@ import java.util.List;
 public class CityService {
 
     @Autowired
-    private CityRepository cityRepository;
+    private CityRepository repository;
 
     public List<CityDTO> findAll() {
-        List<City> list = cityRepository.findAll(Sort.by("name"));
+        List<City> list = repository.findAll(Sort.by("name"));
         return list.stream().map(x -> new CityDTO(x)).toList();
+    }
+
+    public CityDTO insert(CityDTO dto) {
+        City city = new City();
+        city.setName(dto.getName());
+        city = repository.save(city);
+        return new CityDTO(city);
     }
 
 }
